@@ -82,7 +82,9 @@ class PackageSourceABC(abc.ABC):
         return self._versions_for(package, constraint)
 
     @abc.abstractmethod
-    def _versions_for(self, package, constraint=None):  # type: (Hashable, Any) -> List[Hashable]
+    def _versions_for(
+        self, package, constraint=None
+    ):  # type: (Hashable, Any) -> List[Hashable]
         """"""
 
     @abc.abstractmethod
@@ -90,7 +92,9 @@ class PackageSourceABC(abc.ABC):
         """"""
 
     @abc.abstractmethod
-    def convert_dependency(self, dependency):  # type: (Any) -> _Union[Constraint, Range, Union]
+    def convert_dependency(
+        self, dependency
+    ):  # type: (Any) -> _Union[Constraint, Range, Union]
         """
         Converts a user-defined dependency (returned by dependencies_for())
         into a format Mixology understands.
@@ -129,7 +133,9 @@ class PackageSource(PackageSourceABC):
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def _versions_for(self, package, constraint=None):  # type: (Hashable, Any) -> List[Hashable]
+    def _versions_for(
+        self, package, constraint=None
+    ):  # type: (Hashable, Any) -> List[Hashable]
         """"""
         raise NotImplementedError()
 
@@ -138,7 +144,9 @@ class PackageSource(PackageSourceABC):
         """"""
         raise NotImplementedError()
 
-    def convert_dependency(self, dependency):  # type: (Any) -> _Union[Constraint, Range, Union]
+    def convert_dependency(
+        self, dependency
+    ):  # type: (Any) -> _Union[Constraint, Range, Union]
         """
         Converts a user-defined dependency (returned by dependencies_for())
         into a format Mixology understands.
