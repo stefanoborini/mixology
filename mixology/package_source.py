@@ -1,3 +1,5 @@
+import abc
+
 from typing import Any
 from typing import Hashable
 from typing import List
@@ -12,7 +14,7 @@ from .term import Term
 from .union import Union
 
 
-class PackageSource(object):
+class PackageSourceABC(abc.ABC):
     """
     Provides information about specifications and dependencies to the resolver,
     allowing the VersionResolver class to remain generic while still providing power
@@ -64,7 +66,9 @@ class PackageSource(object):
         return Package.root()
 
     @property
+    @abc.abstractmethod
     def root_version(self):  # type: () -> Any
+        """"""
         raise NotImplementedError()
 
     def versions_for(
@@ -78,22 +82,22 @@ class PackageSource(object):
 
         return self._versions_for(package, constraint)
 
-    def _versions_for(
-        self, package, constraint=None
-    ):  # type: (Hashable, Any) -> List[Hashable]
+    @abc.abstractmethod
+    def _versions_for(self, package, constraint=None):  # type: (Hashable, Any) -> List[Hashable]
+        """"""
         raise NotImplementedError()
 
+    @abc.abstractmethod
     def dependencies_for(self, package, version):  # type: (Hashable, Any) -> List[Any]
+        """"""
         raise NotImplementedError()
 
-    def convert_dependency(
-        self, dependency
-    ):  # type: (Any) -> _Union[Constraint, Range, Union]
+    @abc.abstractmethod
+    def convert_dependency(self, dependency):  # type: (Any) -> _Union[Constraint, Range, Union]
         """
         Converts a user-defined dependency (returned by dependencies_for())
         into a format Mixology understands.
         """
-        raise NotImplementedError()
 
     def incompatibilities_for(
         self, package, version
@@ -118,3 +122,27 @@ class PackageSource(object):
             incompatibilities.append(incompatibility)
 
         return incompatibilities
+
+
+class PackageSource(PackageSourceABC):
+    @property
+    def root_version(self):  # type: () -> Any
+        """"""
+        raise NotImplementedError()
+
+    @abc.abstractmethod
+    def _versions_for(self, package, constraint=None):  # type: (Hashable, Any) -> List[Hashable]
+        """"""
+        raise NotImplementedError()
+
+    @abc.abstractmethod
+    def dependencies_for(self, package, version):  # type: (Hashable, Any) -> List[Any]
+        """"""
+        raise NotImplementedError()
+
+    def convert_dependency(self, dependency):  # type: (Any) -> _Union[Constraint, Range, Union]
+        """
+        Converts a user-defined dependency (returned by dependencies_for())
+        into a format Mixology understands.
+        """
+        raise NotImplementedError()
