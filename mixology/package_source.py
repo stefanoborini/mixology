@@ -69,7 +69,6 @@ class PackageSourceABC(abc.ABC):
     @abc.abstractmethod
     def root_version(self):  # type: () -> Any
         """"""
-        raise NotImplementedError()
 
     def versions_for(
         self, package, constraint=None
@@ -85,12 +84,10 @@ class PackageSourceABC(abc.ABC):
     @abc.abstractmethod
     def _versions_for(self, package, constraint=None):  # type: (Hashable, Any) -> List[Hashable]
         """"""
-        raise NotImplementedError()
 
     @abc.abstractmethod
     def dependencies_for(self, package, version):  # type: (Hashable, Any) -> List[Any]
         """"""
-        raise NotImplementedError()
 
     @abc.abstractmethod
     def convert_dependency(self, dependency):  # type: (Any) -> _Union[Constraint, Range, Union]
@@ -124,6 +121,7 @@ class PackageSourceABC(abc.ABC):
         return incompatibilities
 
 
+# Preserved for backward compatibility.
 class PackageSource(PackageSourceABC):
     @property
     def root_version(self):  # type: () -> Any
